@@ -13,7 +13,6 @@ RUN ACCEPT_EULA=Y apt-get install -y \
     unixodbc-dev \
     libgss3 \
     odbcinst \
-    msodbcsql \
     locales \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
