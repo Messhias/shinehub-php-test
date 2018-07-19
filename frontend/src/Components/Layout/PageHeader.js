@@ -15,10 +15,10 @@ export default class PageHeader extends Component {
             strong = "Fabio William Conceição"
         } = this.props;
         return (
-            <section class="section">
-                <div class="container">
-                  <h1 class="title">{title}</h1>
-                  <h2 class="subtitle">
+            <section className="section">
+                <div className="container">
+                  <h1 className="title">{title}</h1>
+                  <h2 className="subtitle">
                     {subtitle} <strong>{strong}</strong>
                   </h2>
                 </div>

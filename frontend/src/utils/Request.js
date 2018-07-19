@@ -2,9 +2,8 @@ import Axios from 'axios';
 
 
 const options = {
-    baseURL: '127.0.0.1',
-    withCredentials: true,
-    timeout: 60000
+    baseURL: '//127.0.0.1',
+    timeout: 60000,
 };
 
 const instance = Axios.create(options);

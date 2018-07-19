@@ -14,7 +14,7 @@ export default class Container extends Component {
         } = this.props;
         const classes = customClass.length > 0 ? customClass.split(' ') : [];
         return (
-            <div class={`container ${classes.join(' ')}`}>
+            <div className={`container ${classes.join(' ')}`}>
                 {this.props.children}
             </div>
         );

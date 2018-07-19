@@ -16,8 +16,8 @@ export default class Footer extends Component {
             authorLink = "https://github.com/messhias"
         } = this.props;
         return (
-            <footer class="footer force-footer">
-              <div class="content has-text-centered">
+            <footer className="footer force-footer">
+              <div className="content has-text-centered">
                 <p>
                   <strong>{strong}</strong> by <a href={authorLink}>{author}</a>.
                 </p>
