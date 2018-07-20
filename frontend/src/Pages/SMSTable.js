@@ -6,11 +6,13 @@ import Container from '../Components/Layout/Container';
 
 import MessagesList from '../Requests/SMS/Get';
 
+import Table from '../Components/SMS/Table';
+
 export default class SMSTable extends Component {
     constructor(props){
     	super(props);
     	this.state = {
-            number: this.props.match.params.id,
+            number: this.props.match.params.id || false,
             data: []
         };
     }
@@ -19,6 +21,10 @@ export default class SMSTable extends Component {
         const {
             number
         } = this.state;
+
+        if (!number) {
+            window.location.href = '/';
+        }
 
         this._MessagesList(number);
     }
@@ -38,13 +44,22 @@ export default class SMSTable extends Component {
     }
 
     render() {
+        const {
+            data,
+            number
+        } = this.state;
+
         return (
             <div>
                 <PageHeader />
                 <Container
                     customClass="level"
                 >
-                    content
+                    <Table
+                        data={data}
+                        loading={this.componentWillMount}
+                        from={number}
+                    />
                 </Container>
                 <Footer />
             </div>

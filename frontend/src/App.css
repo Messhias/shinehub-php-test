@@ -28,7 +28,14 @@
 }
 
 .force-footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.full-width {
+    width: 100% !important;
+}
+
+.table {
+    width: 100% !important;
 }

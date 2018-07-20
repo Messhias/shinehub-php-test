@@ -16,12 +16,12 @@ class SMSController extends Controller
     {
         return response()->json(
             [
-                'code' => 200,
+                'code' => 201,
                 'payload' => SMS::where('to', $id)
                     ->groupBy('from')
                     ->get(),
                 'completed_at' => date('Y-m-d H:m:i'),
-                'statusText' => 'complete',
+                'statusText' => 'OK',
                 'status' => true
             ]
         );
