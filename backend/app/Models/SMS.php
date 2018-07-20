@@ -20,6 +20,6 @@ class SMS extends Model
      * @var array
      */
     protected $fillable = [
-        'from', 'to', 'message', 'status'
+        'from', 'to', 'message'
     ];
 }

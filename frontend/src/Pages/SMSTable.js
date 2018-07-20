@@ -8,6 +8,8 @@ import MessagesList from '../Requests/SMS/Get';
 
 import Table from '../Components/SMS/Table';
 
+const status = ['SEND', 'ERROR'];
+
 export default class SMSTable extends Component {
     constructor(props){
     	super(props);
@@ -15,6 +17,8 @@ export default class SMSTable extends Component {
             number: this.props.match.params.id || false,
             data: []
         };
+
+        this.save = this.save.bind(this);
     }
 
     componentWillMount() {
@@ -27,6 +31,16 @@ export default class SMSTable extends Component {
         }
 
         this._MessagesList(number);
+    }
+
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    save(data) {
+        data.status = status[this.getRandomInt(1)];
+
+        console.log(data);
     }
 
     _MessagesList(number) {
@@ -59,6 +73,7 @@ export default class SMSTable extends Component {
                         data={data}
                         loading={this.componentWillMount}
                         from={number}
+                        save={this.save}
                     />
                 </Container>
                 <Footer />

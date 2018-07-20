@@ -27,7 +27,6 @@ class CreateSmsTable extends Migration
             $table->string('from', 45);
             $table->string('to', 45);
             $table->string('message', 160);
-            $table->text('status');
             $table->softDeletes();
             $table->nullableTimestamps();
         });

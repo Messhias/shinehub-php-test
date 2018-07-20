@@ -39,3 +39,16 @@
 .table {
     width: 100% !important;
 }
+
+
+.modal-header > span {
+    width: 100%;
+}
+
+.modal-content > .container, .field {
+    width: 100%;
+}
+
+.last-modal-field {
+  margin-bottom: 10px;
+}

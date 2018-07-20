@@ -87,14 +87,6 @@ export default class Tables extends Component {
         this.props.save(newSMS);
     }
 
-    createCustomModalHeader(closeModal, save) {
-        return (
-            <InsertModalHeader
-              title='Send new SMS message'
-            />
-        );
-    }
-
     beforeSave(e) {
         this.handleModalClose(e);
     }
@@ -149,9 +141,33 @@ export default class Tables extends Component {
                         className="input"
                         placeholder="Number to..."
                         name="to"
-                        value={from}
+                        value={to}
                         onChange={this.onChange.bind(this)}
                     />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label
+                    className="label"
+                  >
+                    Message
+                  </label>
+                  <div className="field last-modal-field">
+                    <textarea name="" cols="" rows=""
+                        className="input"
+                        placeholder="Type your message..."
+                        name="message"
+                        value={message}
+                        rows='5'
+                        onChange={this.onChange.bind(this)}
+                    ></textarea>
+                    <p>
+                        Message length: {message.length}
+                    </p>
+                    <p>
+                        If your messages is over 160 characters it will be split in 2 messages.
+                    </p>
                   </div>
                 </div>
             </div>
