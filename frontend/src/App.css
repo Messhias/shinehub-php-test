@@ -52,3 +52,12 @@
 .last-modal-field {
   margin-bottom: 10px;
 }
+
+
+.ReactModal__Overlay {
+    z-index: 9;
+}
+
+.full-width {
+    width: 100%
+}

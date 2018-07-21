@@ -16,3 +16,4 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('/sms/{id}', 'SMSController@show');
+$router->post('/sms', 'SMSController@create');

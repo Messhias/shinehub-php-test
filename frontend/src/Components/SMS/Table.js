@@ -14,7 +14,14 @@ export default class Tables extends Component {
                 to: '',
                 from: this.props.from,
                 message: ''
-            }
+            },
+            charLimit : 160,
+            maxSplits : 15,
+            indicator: '',
+            breakPoint: '',
+            messages : [],
+            n: '',
+            m:''
         };
 
         this.createCustomModalHeader = this.createCustomModalHeader.bind(this);
@@ -42,49 +49,71 @@ export default class Tables extends Component {
 
     onChange(e) {
         const state = this.state;
+
         state.newSMS[e.target.name] = e.target.value;
+
+        if (e.target.name === 'message') {
+            if (e.target.value === '') {
+              state.newSMS[e.target.name] = '';
+              state.charLimit = 160;
+              state.maxSplits = 15;
+              state.indicator = '(0/15)';
+              state.breakPoint = '';
+              state.messages = [];
+              state.n = '';
+              state.m = '';
+            } else if (e.target.value.length > 160) {
+              this.splitMessage();
+            }
+        }
+
         this.setState(state);
     }
 
-    toggleActive() {
-        let {
-          newSMS,
-          isActive
+    splitMessage() {
+        const {
+          messages
         } = this.state;
+        let n, m;
+        let charLimit = 160;
+        let breakPoint = '';
+        let maxSplits = 15;
+        let indicator = '';
 
-        isActive = !isActive;
-        newSMS.active = isActive;
+        for (n = 0, m = 0; n < this.state.newSMS.message.length / charLimit && n < maxSplits; n++) {
+            m = n * charLimit;
+            // set the indicator so we can now how long it is
+            indicator = '(' + (n + 1) + '/' + maxSplits + ')';
+            // set the breakpoint, taking indicator length into consideration
+            breakPoint = m + charLimit - indicator.length;
+            // insert the indicator into the correct spot
+            this.state.newSMS.message = this.state.newSMS.message.substring(0, breakPoint) +  this.state.newSMS.message.substring(breakPoint);
+            // add a message (will be charLimit long and include the indicator)
+            messages.push(this.state.newSMS.message.substring(m, m + charLimit));
+        }
 
         this.setState({
-            isActive,
-            newSMS
-        });
-    }
-
-    toggleExclusive() {
-        let {
-          newSMS,
-          isExclusive
-        } = this.state;
-
-        isExclusive = !isExclusive;
-        newSMS.exclusive = isExclusive;
-
-        this.setState({
-            isExclusive,
-            newSMS
+            messages,
+            m,
+            n,
+            charLimit,
+            maxSplits,
+            breakPoint,
+            indicator
         });
     }
 
     sendMessage(closeModal) {
         const {
-          newSMS
+          newSMS,
+          messages
         } = this.state;
 
-        delete newSMS.parent;
-        delete newSMS['parent'];
-
-        this.props.save(newSMS);
+        if (messages.length > 1) {
+            this.props.save(messages);
+        } else {
+            this.props.save(newSMS);
+        }
     }
 
     beforeSave(e) {
@@ -154,7 +183,7 @@ export default class Tables extends Component {
                     Message
                   </label>
                   <div className="field last-modal-field">
-                    <textarea name="" cols="" rows=""
+                    <textarea
                         className="input"
                         placeholder="Type your message..."
                         name="message"
@@ -163,10 +192,11 @@ export default class Tables extends Component {
                         onChange={this.onChange.bind(this)}
                     ></textarea>
                     <p>
-                        Message length: {message.length}
+                        Message length: {message.length} <br />
+                        {this.state.indicator !== '' ? `Your message splited ${this.state.indicator} ` : ''}
                     </p>
                     <p>
-                        If your messages is over 160 characters it will be split in 2 messages.
+                        If your messages is over 160 characters it will be split into in max 15 messages.
                     </p>
                   </div>
                 </div>
@@ -188,43 +218,38 @@ export default class Tables extends Component {
         };
 
         return (
-            <BootstrapTable
-                className="table full-width"
-                width="25%"
-                data={this.props.data}
-                options={options}
-                striped
-                hover
-                insertRow
-                sorted
-                pagination
-            >
-                <TableHeaderColumn
+            <div className='full-width'>
+                <BootstrapTable
+                  className="table full-width"
+                  data={this.props.data}
+                  options={options}
+                  striped
+                  hover
+                  insertRow
+                  sorted
+                  pagination
+                  >
+                  <TableHeaderColumn
                     width="25%"
                     isKey
                     dataField='id'
-                >
+                    >
                     #
-                </TableHeaderColumn>
-                <TableHeaderColumn
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     width="25%"
                     dataField='from'
-                >
+                    >
                     From
-                </TableHeaderColumn>
-                <TableHeaderColumn
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     width="25%"
                     dataField='to'
-                >
+                    >
                     To
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                    width="25%"
-                    dataField='status'
-                >
-                    Status
-                </TableHeaderColumn>
-            </BootstrapTable>
+                  </TableHeaderColumn>
+                </BootstrapTable>
+            </div>
         );
     }
 }
