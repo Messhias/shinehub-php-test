@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SMS;
 use Illuminate\Http\Request;
 use DB;
+use Log;
 
 class SMSController extends Controller
 {
@@ -16,17 +17,29 @@ class SMSController extends Controller
      */
     public function show($id)
     {
-        $results = DB::select("SELECT * from sms where sms.from or sms.to like '%{$id}%' group by sms.to");
+        try {
+            $results = DB::select("SELECT * from sms where sms.from or sms.to like '%{$id}%' group by sms.to");
 
-        return response()->json(
-            [
-                'code' => 200,
-                'payload' => $results,
-                'completed_at' => date('Y-m-d H:m:i'),
-                'statusText' => 'OK',
-                'status' => true
-            ]
-        );
+            return response()->json(
+                [
+                    'code' => 200,
+                    'payload' => $results,
+                    'completed_at' => date('Y-m-d H:m:i'),
+                    'statusText' => 'OK',
+                    'status' => true
+                ]
+            );
+        } catch (\Exception $e) {
+
+            Log::error($e);
+            return response()->json([
+               'code' => 501,
+               'payload' => 'Error',
+               'completed_at' => date('Y-m-d H:m:i'),
+               'statusText' => 'Fail',
+               'status' => false
+            ]);
+        }
     }
 
     /**
@@ -37,14 +50,35 @@ class SMSController extends Controller
      */
      public function create(Request $request)
      {
-         return response()->json(
-             [
-                 'code' => 201,
-                 'payload' => SMS::create($request->input('sms')),
-                 'completed_at' => date('Y-m-d H:m:i'),
-                 'statusText' => 'OK',
-                 'status' => true
-             ]
-         );
+         try {
+             $done = false;
+             if (count($request->input('sms')) > 3) {
+                 foreach ($request->input('sms') as $key => $value) {
+                     $done = SMS::create($value);
+                 }
+             } else {
+                 $done = SMS::create($request->input('sms'));
+             }
+
+             return response()->json(
+                 [
+                     'code' => 201,
+                     'payload' => $done,
+                     'completed_at' => date('Y-m-d H:m:i'),
+                     'statusText' => 'OK',
+                     'status' => true
+                 ]
+             );
+         } catch (\Exception $e) {
+             Log::error($e);
+             return response()->json([
+                'code' => 501,
+                'payload' => 'Error',
+                'completed_at' => date('Y-m-d H:m:i'),
+                'statusText' => 'Fail',
+                'status' => false
+             ]);
+         }
+
      }
 }

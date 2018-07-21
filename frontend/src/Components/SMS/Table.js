@@ -72,7 +72,8 @@ export default class Tables extends Component {
 
     splitMessage() {
         const {
-          messages
+          messages,
+          newSMS
         } = this.state;
         let n, m;
         let charLimit = 160;
@@ -89,7 +90,13 @@ export default class Tables extends Component {
             // insert the indicator into the correct spot
             this.state.newSMS.message = this.state.newSMS.message.substring(0, breakPoint) +  this.state.newSMS.message.substring(breakPoint);
             // add a message (will be charLimit long and include the indicator)
-            messages.push(this.state.newSMS.message.substring(m, m + charLimit));
+            messages.push(
+              {
+                 from: newSMS.from,
+                 to: newSMS.to,
+                 message: this.state.newSMS.message.substring(m, m + charLimit)
+              }
+            );
         }
 
         this.setState({
