@@ -11,11 +11,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 You need those tecnologies installed to run the application. Please visit the links bellow and ansure that you have all the minimal requirements.
 
-[Docker](https://www.docker.com/) - Docker
-[Node](https://nodejs.org/en/) - Node
-[NPM](https://www.npmjs.com/) - NPM
-[PHP](http://php.net/) - PHP
-[Composer](https://getcomposer.org/) - Composer
+[Docker](https://www.docker.com/)
+[Node](https://nodejs.org/en/)
+[NPM](https://www.npmjs.com/)
+[PHP](http://php.net/)
+[Composer](https://getcomposer.org/)
 
 
 ### Installing
