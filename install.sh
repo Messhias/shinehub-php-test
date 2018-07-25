@@ -12,7 +12,7 @@ echo "Installing containers."
 docker build .
 
 echo "Installing backend."
-cd backend && composer install
+cd backend && composer install && cp .env.example .env
 cd ..
 
 echo "Installing frontend."
